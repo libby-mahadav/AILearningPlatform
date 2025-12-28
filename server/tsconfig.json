@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES6",                          /* קוד שכל דפדפן ושרת מכיר */
+    "module": "commonjs",                    /* הסטנדרט של Node.js */
+    "rootDir": "./",                         /* איפה נמצא קוד המקור (כרגע בתיקייה הראשית) */
+    "outDir": "./dist",                      /* לאן הקוד המתורגם יילך */
+    "esModuleInterop": true,                 /* זה מה שיפתור לך את האדום על ה-import */
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,                          /* מחייב אותך לכתוב קוד איכותי */
+    "skipLibCheck": true,                    /* חוסך זמן בבדיקת ספריות חיצוניות */
+    "typeRoots": ["./node_modules/@types"],  /* איפה לחפש הגדרות של ספריות */
+     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false
+  }
+}
