@@ -19,3 +19,18 @@ res.status(201).json({
     data: 'result'
 });
  });
+
+ export const getUserPromptsHandler = async (req: Request, res: Response) => {
+    try {
+        const userId = parseInt(req.params.userId);
+        const prompts = await promptService.getUserPrompts(userId);
+        
+        res.status(200).json({
+            status: "success",
+            results: prompts.length,
+            data: prompts
+        });
+    } catch (error: any) {
+        res.status(500).json({ status: "error", message: error.message });
+    }
+};

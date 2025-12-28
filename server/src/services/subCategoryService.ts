@@ -1,12 +1,23 @@
-import Sub_category from "../models/Sub_category";
-import { AppError } from "../utils/AppError";
+import { Sub_category } from '../models/Sub_category';
+import { AppError } from '../utils/AppError';
 
 export const addSubCategory = async(name: string, categoryId: number)=>{
-    const existingSub = await Sub_category.findOne({where: {name, categoryId}});
-    if(existingSub) {throw new AppError("subCategory exists",400);}
-    return await Sub_category.create({ name, categoryId });
-};
+    // שימי לב: אנחנו מחפשים לפי category_id
+    const existingSub = await Sub_category.findOne({
+        where: { 
+            name, 
+            category_id: categoryId 
+        }
+    });
 
-export const getAllSubsByCategoryId = async( categoryId: number)=>{
-    return await Sub_category.findAll({where:{categoryId}});
+    if(existingSub) {
+        throw new AppError("subCategory exists", 400);
+    }
+
+    // כאן הקסם: אנחנו אומרים ל-Sequelize שהערך שקיבלנו מה-Controller (categoryId)
+    // צריך להיכנס לעמודה שנקראת category_id
+    return await Sub_category.create({ 
+        name, 
+        category_id: categoryId 
+    });
 };

@@ -1,3 +1,4 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
@@ -10,7 +11,7 @@ import './models/Prompt';
 import './models/realationships';
 
 import userRouter from './routes/userRoutes';
-import categoryRouter from './routes/categoryRoutes';
+import categoryRouter from './routes/categoryRoutes'
 import subCategoryRouter from './routes/subCategoryRoute';
 import promptRouter from './routes/promptRoutes';
 
@@ -28,20 +29,24 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req: Request, res: Response) => {
+    res.send('WELCOME TO THE MINI API TEACHER');
+});
+
+
 app.use('/api/users', userRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/subCategories', subCategoryRouter);
 app.use('/api/prompts', promptRouter);
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('WELCOME TO THE MINI API TEACHER');
-});
 
-app.use(errorHandler);
+
 
 app.use((req: Request, res: Response, next) => {
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
+
+app.use(errorHandler);
 
 const startServer = async () => {
         // Test the database connection

@@ -3,7 +3,7 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.post('/addCategory',categoryController.addCategory);
+ router.post('/',categoryController.addCategory);
 
 router.get('/getAllCategories',categoryController.getAllCategories);
 
