@@ -10,6 +10,11 @@ import './models/Prompt';
 import './models/realationships';
 
 import userRouter from './routes/userRoutes';
+import categoryRouter from './routes/categoryRoutes';
+import subCategoryRouter from './routes/subCategoryRoute';
+import promptRouter from './routes/promptRoutes';
+
+
 
 import { errorHandler } from './middlewares/errorMiddleware';
 import { AppError } from './utils/AppError';
@@ -24,6 +29,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/users', userRouter);
+app.use('/api/categories', categoryRouter);
+app.use('/api/subCategories', subCategoryRouter);
+app.use('/api/prompts', promptRouter);
 
 app.get('/', (req: Request, res: Response) => {
     res.send('WELCOME TO THE MINI API TEACHER');
