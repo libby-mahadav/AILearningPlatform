@@ -1,9 +1,12 @@
+import Auth from './pages/Auth'; 
+
 function App() {
   return (
-    <div>
-      <h1>Mini AI Teacher - הקליינט שלי</h1>
+    <div className="App">
+     
+      <Auth />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
