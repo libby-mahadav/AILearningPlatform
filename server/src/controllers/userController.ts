@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 
 
 export const register = catchAsync(async (req: Request, res: Response) => {
+        
         const newUser = await userService.createUser(req.body);
         const token = jwt.sign(
                 { id: newUser.id, role: newUser.role },
