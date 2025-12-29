@@ -1,5 +1,5 @@
 import Category from "../models/Category";
-import Sub_category from "../models/Sub_category";
+import SubCategory from "../models/SubCategory";
 import { AppError } from "../utils/AppError";
 
 export const createCategory = async(name:string) =>{
@@ -11,7 +11,7 @@ export const createCategory = async(name:string) =>{
 }
 
 export const getAllCategories = async() =>{
-    return await Category.findAll({ include: [{ model: Sub_category, as: 'subCategories' }] });
+    return await Category.findAll({ include: [{ model: SubCategory, as: 'subCategories' }] });
 }
 
 

@@ -16,12 +16,11 @@ const result = await promptService.createNewPrompt(
 
 res.status(201).json({
     status: 'success',
-    data: 'result'
+    data: result
 });
  });
 
- export const getUserPromptsHandler = async (req: Request, res: Response) => {
-    try {
+ export const getUserPromptsHandler = catchAsync(async (req: Request, res: Response) => {
         const userId = parseInt(req.params.userId);
         const prompts = await promptService.getUserPrompts(userId);
         
@@ -30,7 +29,4 @@ res.status(201).json({
             results: prompts.length,
             data: prompts
         });
-    } catch (error: any) {
-        res.status(500).json({ status: "error", message: error.message });
-    }
-};
+});

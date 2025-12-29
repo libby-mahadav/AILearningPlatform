@@ -2,7 +2,7 @@ import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/db";
 import User from "./User";
 import Category from "./Category";
-import Sub_category from "./Sub_category";
+import SubCategory from "./SubCategory";
 
 
 export class Prompt extends Model {
@@ -39,7 +39,7 @@ Prompt.init({
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: Sub_category,
+            model: SubCategory,
             key: 'id',
         },
     },

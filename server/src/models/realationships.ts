@@ -2,7 +2,7 @@
 import User from './User';
 import Prompt from './Prompt';
 import Category from './Category';
-import SubCategory from './Sub_category';
+import SubCategory from './SubCategory';
 
 
 User.hasMany(Prompt, { foreignKey: 'userId', as: 'history' });

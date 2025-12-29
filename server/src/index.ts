@@ -1,4 +1,4 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
@@ -6,7 +6,7 @@ import sequelize from './config/db';
 
 import './models/User';
 import './models/Category';
-import './models/Sub_category';
+import './models/SubCategory';
 import './models/Prompt';
 import './models/realationships';
 
@@ -19,7 +19,6 @@ import promptRouter from './routes/promptRoutes';
 
 import { errorHandler } from './middlewares/errorMiddleware';
 import { AppError } from './utils/AppError';
-import { catchAsync } from './utils/catchAsync';
 
 dotenv.config();
 

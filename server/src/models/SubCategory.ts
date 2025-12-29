@@ -2,15 +2,15 @@ import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/db";
 import Category from "./Category";
 
-export class Sub_category extends Model {
+export class SubCategory extends Model {
 
     public id!: number;
     public name!: string;
-    public category_id!: number;
+    public categoryId!: number;
 
 }
 
-Sub_category.init({
+SubCategory.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -19,20 +19,21 @@ Sub_category.init({
     name: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+        unique: 'uniqueSubForEachCategory',
     },
-    category_id: {
+    categoryId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        unique: 'uniqueSubForEachCategory',
         references: {
             model: Category,
             key: 'id',
-        },
+        }, 
     },
 },
     {
         sequelize,
-        tableName: " subCategories",
+        tableName: "subCategories",
     });
-export default Sub_category;
+export default SubCategory;
 

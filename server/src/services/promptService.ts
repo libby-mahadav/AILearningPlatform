@@ -9,7 +9,7 @@ export const createNewPrompt = async (userId: number, subCategoryId: number, cat
     // כאן התיקון הקריטי - התאמה לשמות השדות בשגיאה:
     const newPrompt = await Prompt.create({
         userId: userId,           // שיניתי מ-user_id ל-userId
-        subCategoryId: subCategoryId, // שיניתי מ-sub_category_id ל-subCategoryId
+        subCategoryId: subCategoryId,
         categoryId: 1,            // הוספתי כי ה-DB דורש categoryId (כרגע שמתי 1 כברירת מחדל)
         prompt: question,         // שיניתי מ-question ל-prompt
         answer: mockAnswer
