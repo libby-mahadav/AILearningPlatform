@@ -16,6 +16,8 @@ function App() {
         
         {/* דף היסטוריית הלמידה החדש */}
         <Route path='/history' element={<HistoryPage />} />
+        <Route path='/adminHistory' element={<AdminHistoryPage />} />
+      
 
   
       

@@ -18,3 +18,12 @@ export const protect = catchAsync(async (req: any, res: Response, next: NextFunc
     req.user = decoded; 
     next();
 });
+
+export const accessibility = (...roles: string[]) => {
+    return (req: any, res: Response, next: NextFunction) => {
+        if (!roles.includes(req.user.role)) {
+            return next(new AppError('you dont have access to this action', 403));
+        }
+        next();
+    };
+};

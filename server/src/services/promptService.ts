@@ -56,7 +56,7 @@ export const getUserPrompts = async (userId: number) => {
 export const getAllUsersHistory = async()=>{
 return await Prompt.findAll({
         include: [
-            { model: User, attributes: ['name', 'phone'] }, // חשוב: כדי לראות מי המשתמש ששאל
+            { model: User, as: 'user', attributes: ['name', 'phone'] }, // חשוב: כדי לראות מי המשתמש ששאל
             { model: SubCategory, attributes: ['name'] }
         ],
         order: [['createdAt', 'DESC']]
