@@ -28,11 +28,6 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('WELCOME TO THE MINI API TEACHER');
-});
-
-
 app.use('/api/users', userRouter);
 app.use('/api/categories', categoryRouter);
 app.use('/api/subCategories', subCategoryRouter);

@@ -15,11 +15,7 @@ const Dashboard = () => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        getCategories();
-    }, []);
-
-    const getCategories = async () => {
+        const getCategories = async () => {
         try {
             const data = await getAllCategories();
             setCategories(data.data.categories || []);
@@ -29,6 +25,10 @@ const Dashboard = () => {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        getCategories();
+    }, []);
 
     const handleCategorySelect = async (category: any) => {
         setLoading(true);

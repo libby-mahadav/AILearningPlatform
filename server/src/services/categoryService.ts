@@ -3,10 +3,6 @@ import SubCategory from "../models/SubCategory";
 import { AppError } from "../utils/AppError";
 
 export const createCategory = async(name:string) =>{
-   const existingCategory = await Category.findOne({ where: { name } });
-   if (existingCategory) {
-       throw new AppError("Category already exists", 400);
-   }
    return await Category.create({ name });
 }
 
