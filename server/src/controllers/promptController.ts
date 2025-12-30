@@ -3,25 +3,23 @@ import { Request, Response } from 'express';
 import { catchAsync } from '../utils/catchAsync';
 
 
-export const newPrompt = catchAsync(async(req: Request, res: Response)=>{
-const {userId, subCategoryId, categoryName, subCategoryName, question} = req.body;
+export const askAI =  catchAsync(async (req: Request, res: Response) => {
+        const { subCategoryId, messages } = req.body;
+        const userId = req.user.id;
+        const lastMessage = messages[messages.length - 1].content;
 
-const result = await promptService.createNewPrompt(
-    userId,
-    subCategoryId,
-    categoryName,
-    subCategoryName,
-    question
-);
+        const reply = await promptService.getAIResponse(subCategoryId, messages)|| "";
 
-res.status(201).json({
-    status: 'success',
-    data: result
+        await promptService.savePromptToHistory(userId, subCategoryId, lastMessage, reply);
+
+        res.status(200).json({
+            status: "success",
+            data: { reply }
+        });
 });
- });
 
  export const getUserPromptsHandler = catchAsync(async (req: Request, res: Response) => {
-        const userId = parseInt(req.params.userId);
+        const userId = req.user.id;
         const prompts = await promptService.getUserPrompts(userId);
         
         res.status(200).json({
@@ -29,4 +27,12 @@ res.status(201).json({
             results: prompts.length,
             data: prompts
         });
+});
+
+export const getAllUsersHistory = catchAsync(async(req:Request, res:Response)=>{
+    const history = await promptService.getAllUsersHistory();
+    res.status(200).json({
+        status: "success",
+        data: history
+    });
 });

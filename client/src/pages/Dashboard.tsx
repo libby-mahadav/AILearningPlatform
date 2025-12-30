@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getAllCategories } from '../services/categoryService';
 import { getSubsByCatId  } from "../services/subCategoryService";  
 import CategoryCard from "../components/categoryCard";
@@ -12,6 +13,7 @@ const Dashboard = () => {
     const [selectedCategory, setSelectedCategory] = useState<any>(null);
     const [selectedSub, setSelectedSub] = useState<any>(null);
 
+    const navigate = useNavigate();
       useEffect(() => {
         getCategories();
 
@@ -51,10 +53,21 @@ const Dashboard = () => {
 
     return (
     <div className="dashboard-container">
+        
+        <div className="dashboard-header">
+            <button 
+                className="history-nav-btn" 
+                onClick={() => navigate('/history')}
+            >
+                📜 להיסטוריית הלמידה שלי
+            </button>
+        </div>
+        
         {selectedSub ? (
             /* מצב 3: צ'אט */
             <Chat
-                subCategoryName={selectedSub.name} 
+                subCategoryName={selectedSub.name}
+                subCategoryId={selectedSub.id} 
                 onBack={() => setSelectedSub(null)} 
             />
         ) : !selectedCategory ? (

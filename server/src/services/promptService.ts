@@ -1,53 +1,64 @@
-import axios from 'axios';
+import OpenAI from 'openai';
 import Prompt from '../models/Prompt';
+import SubCategory from '../models/SubCategory';
+import User from '../models/User';
 
-export const createNewPrompt = async (userId: number, subCategoryId: number, categoryName: string, subCategoryName: string, question: string) => {
-    
-    // נשתמש בתשובת Mock כדי לעקוף את בעיית גוגל כרגע
-    const mockAnswer = "זוהי תשובה זמנית לצורך בדיקת בסיס הנתונים.";
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY, // ודאי שיש לך מפתח ב-env
+});
 
-    // כאן התיקון הקריטי - התאמה לשמות השדות בשגיאה:
-    const newPrompt = await Prompt.create({
-        userId: userId,           // שיניתי מ-user_id ל-userId
-        subCategoryId: subCategoryId,
-        categoryId: 1,            // הוספתי כי ה-DB דורש categoryId (כרגע שמתי 1 כברירת מחדל)
-        prompt: question,         // שיניתי מ-question ל-prompt
-        answer: mockAnswer
+export const getAIResponse = async (subCategoryId: number, messages: any[]) => {
+  const subCategory = await SubCategory.findOne({where: {id: subCategoryId}});
+    try{
+    const response = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [
+            { 
+                role: "system", 
+                content: `You are a helpful and professional teacher. Your goal is to teach the student about ${subCategory?.name}. Be clear, encouraging, and patient.` 
+            },
+            ...messages // כל היסטוריית הצ'אט כדי שיזכור מה נאמר
+        ],
     });
 
-    return newPrompt;
+    return response.choices[0].message.content;
+}catch(error: any){
+    const lastUserMessage = messages[messages.length - 1]?.content || "your question";
+
+    return `hi! im your AI teacher im glad to explain you all about ${subCategory?.name}.
+    right now i'm offline but i see you asked : "${lastUserMessage}"`
+}
 };
-// אם הAPI יעבוד אז להחזיר את הקוד הזה
-// import OpenAI from 'openai';
-// import Prompt from '../models/Prompt';
+export const savePromptToHistory = async ( userId: string, subCategoryId: number, question: string, answer: string) => {
+  const subCategory = await SubCategory.findByPk(subCategoryId);
+    return await Prompt.create({
+        userId,
+        subCategoryId,
+        categoryId: subCategory?.categoryId,
+        prompt: question,
+        response: answer
+    });
+}
 
-// console.log("THE KEY IS:", process.env.OPENAI_API_KEY);
-// const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY,});
-
-// export const createNewPrompt = async( userId: number, subCategoryId: number, categoryName: string, subCategoryName: string, question: string)=>{
-//     const response = await openai.chat.completions.create({
-//         model: "gpt-3.5-turbo",
-//         messages: [
-//             {role: "system", content:`You are a teacher specialized in ${categoryName} - ${subCategoryName}.`},
-//             {role: "user", content: question}
-//         ],
-//     });
-
-//     const answer = response.choices[0].message.content || 'try again';
-
-//     const newPrompt = await Prompt.create({
-//         userId,
-//         subCategoryId,
-//         question,
-//         answer
-//     });
-//     return newPrompt;
-// }
-
-// שליפת כל הפרומפטים של משתמש מסוים, כולל מידע על הקטגוריה
 export const getUserPrompts = async (userId: number) => {
     return await Prompt.findAll({
-        where: { userId },
-        order: [['createdAt', 'DESC']] // החדשים ביותר למעלה
+        where: { userId: userId },
+        include: [
+            {
+                model: SubCategory, 
+                attributes: ['name']
+            }
+        ],
+        order: [['createdAt', 'DESC']] // בונוס: מציג את ההיסטוריה מהחדש לישן
+    });
+};
+
+export const getAllUsersHistory = async()=>{
+return await Prompt.findAll({
+        include: [
+            { model: User, attributes: ['name', 'phone'] }, // חשוב: כדי לראות מי המשתמש ששאל
+            { model: SubCategory, attributes: ['name'] }
+        ],
+        order: [['createdAt', 'DESC']]
     });
 };

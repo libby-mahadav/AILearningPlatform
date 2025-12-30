@@ -1,0 +1,78 @@
+.admin-history-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px;
+    direction: rtl;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.admin-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.admin-stats {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #dee2e6;
+}
+
+.admin-card {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+    overflow: hidden;
+    border: 1px solid #eee;
+}
+
+.admin-card-sidebar {
+    background: #34495e;
+    color: white;
+    padding: 20px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 0.9rem;
+}
+
+.admin-user-badge {
+    font-weight: bold;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #5d6d7e;
+    padding-bottom: 5px;
+}
+
+.admin-card-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.admin-topic-tag {
+    background: #e8f4fd;
+    color: #2980b9;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.admin-section {
+    margin-top: 15px;
+}
+
+.admin-section strong {
+    color: #7f8c8d;
+    font-size: 0.85rem;
+    display: block;
+}
+
+.admin-section p {
+    margin: 5px 0;
+    line-height: 1.5;
+    color: #2c3e50;
+}
