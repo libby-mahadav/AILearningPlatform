@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { login, register } from '../services/authService';
-import  './Auth.css'
+import  './css/Auth.css'
 
 const Auth = () => {
+
+    const navigate = useNavigate();
+
     const [isLogin, setIsLogin] = useState(true);
     const [id, setId] = useState('');
     const [name, setName] = useState('');
@@ -17,7 +21,7 @@ const Auth = () => {
         try {
             if (isLogin) {
                 await login(id);
-                //dashBoard
+               navigate('/dashboard')
             }
             else {
                 await register(id, name, phone);

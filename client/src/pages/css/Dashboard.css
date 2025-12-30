@@ -1,0 +1,49 @@
+
+.dashboardContainer {
+    padding: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+    direction: rtl; /* יישור לימין לעברית */
+}
+
+.dashboardTitle {
+    text-align: center;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+.categoriesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.categoryCard {
+    border: 2px solid #e0e0e0;
+    padding: 30px;
+    border-radius: 15px;
+    cursor: pointer;
+    text-align: center;
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.categoryCard:hover {
+    transform: translateY(-5px);
+    border-color: #4CAF50;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.categoryCard h3 {
+    margin: 0;
+    color: #444;
+    font-size: 1.2rem;
+}
+
+.loadingText {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 1.5rem;
+    color: #666;
+}
