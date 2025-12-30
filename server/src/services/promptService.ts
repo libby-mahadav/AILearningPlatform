@@ -2,6 +2,7 @@ import OpenAI from 'openai';
 import Prompt from '../models/Prompt';
 import SubCategory from '../models/SubCategory';
 import User from '../models/User';
+import Category from '../models/Category';
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY, // ודאי שיש לך מפתח ב-env
@@ -53,11 +54,26 @@ export const getUserPrompts = async (userId: number) => {
     });
 };
 
-export const getAllUsersHistory = async()=>{
-return await Prompt.findAll({
+export const getAllUsersHistory = async () => {
+    return await Prompt.findAll({
         include: [
-            { model: User, as: 'user', attributes: ['name', 'phone'] }, // חשוב: כדי לראות מי המשתמש ששאל
-            { model: SubCategory, attributes: ['name'] }
+            { 
+                model: User, 
+                as: 'user', 
+                attributes: ['name', 'phone'] 
+            },
+            { 
+                model: SubCategory, 
+                attributes: ['name'],
+                // הקישור הנכון: הקטגוריה נמצאת בתוך התת-קטגוריה
+                include: [
+                    {
+                        model: Category,
+                        as: 'category', // חייב להתאים ל-alias שהגדרת ב-relationships
+                        attributes: ['name']
+                    }
+                ]
+            }
         ],
         order: [['createdAt', 'DESC']]
     });

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login, register } from '../services/authService';
-import  '../css/Auth.css'
+import { useAuth } from '../context/AuthContext';
+import '../css/Auth.css'
 
 const Auth = () => {
-
+    const { login: saveAuth } = useAuth();
     const navigate = useNavigate();
 
     const [isLogin, setIsLogin] = useState(true);
@@ -20,8 +21,9 @@ const Auth = () => {
         setError(null);
         try {
             if (isLogin) {
-                await login(id);
-               navigate('/dashboard')
+                const data = await login(id);
+                saveAuth(data.token); // משתמשים בפונקציה מה-Context
+                navigate('/dashboard');
             }
             else {
                 await register(id, name, phone);
@@ -29,8 +31,7 @@ const Auth = () => {
             }
         }
         catch (err: any) {
-            const msg = err.response?.data?.message || "somthing wrong happend try again";
-            setError(msg);
+            setError(err.response?.data?.message || "Error");
         }
     }
 
