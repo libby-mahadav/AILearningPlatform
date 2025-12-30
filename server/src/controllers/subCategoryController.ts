@@ -12,4 +12,12 @@ export const addSubCategory = catchAsync(async (req: Request, res: Response) => 
     });
 });
 
-// get all categories
+export const getSubsByCategoryId = catchAsync(async (req: Request, res: Response)=>{
+    const categoryId =parseInt(req.params.categoryId);
+    const subs = await subsService.getSubsByCategoryId(categoryId);
+
+    res.status(201).json({
+        status: "success", 
+        data: { subs } 
+    })
+});
