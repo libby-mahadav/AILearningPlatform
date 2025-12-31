@@ -1,131 +1,45 @@
-.history-container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    direction: rtl; /* יישור לימין לעברית */
-}
-
-.history-container h1 {
-    text-align: center;
-    color: #2c3e50;
-    margin-bottom: 30px;
-    font-size: 2.2rem;
-}
-
-.history-list {
-    display: grid;
-    gap: 20px;
-    grid-template-columns: 1fr; /* כרטיס אחד בשורה, אפשר לשנות ל-1fr 1fr למסכים רחבים */
-}
-
-.history-card {
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    border-right: 6px solid #4a90e2; /* פס כחול בצד למראה יוקרתי */
-    transition: transform 0.2s;
-}
-
-.history-card:hover {
-    transform: translateY(-5px);
-}
-
-.card-header {
+.historyContainer {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+    padding: 20px;
 }
-
-.category-tag {
-    background: #e1f0ff;
-    color: #4a90e2;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: bold;
+.historyList {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
-
-.date {
-    color: #95a5a6;
-    font-size: 0.85rem;
-}
-
-.query {
-    background: #f9f9f9;
-    padding: 12px;
+.historyCard {
+    border: 1px solid #ccc;
     border-radius: 8px;
-    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #f9f9f9;
 }
-
-.query strong {
-    color: #34495e;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.response {
-    padding: 10px 12px;
-}
-
-.response strong {
-    color: #27ae60; /* צבע ירוק לתשובת ה-AI */
-    display: block;
-    margin-bottom: 5px;
-}
-
-.response p {
-    line-height: 1.6;
-    color: #2c3e50;
-    white-space: pre-wrap; /* שומר על ירידות שורה מה-AI */
-}
-
-/* התאמה למובייל */
-@media (max-width: 600px) {
-    .history-container {
-        padding: 10px;
-    }
-}
-.mainNavbar {
+.historyHeader {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    background-color: #2c3e50;
-    padding: 1rem 2rem;
+    margin-bottom: 10px;
+}
+.topicTag {
+    background-color: #007bff;
     color: white;
-    direction: rtl;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+.dateTag {
+    font-size: 0.8em;
+    color: #666;
+}
+.historyBody p {
+    margin: 5px 0;
+}
+.historyBody strong {
+    color: #333;
+}
+.historyBody {
+    white-space: pre-wrap;
 }
 
-.navbarLinks {
-    display: flex;
-    list-style: none;
-    gap: 20px;
-    align-items: center;
-    margin: 0;
-}
-
-.navbarLinks a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.navbarLinks a:hover {
-    color: #3498db;
-}
-
-.logoutBtn {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.logoutBtn:hover {
-    background-color: #c0392b;
-}

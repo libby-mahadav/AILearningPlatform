@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getUserChatHistory } from '../services/chatService';
-import '../css/History.css'; // שימוש בקובץ ה-CSS היחיד שנשאר
+import '../css/History.css'; 
 
-const HistoryPage: React.FC = () => {
+const History: React.FC = () => {
     const [history, setHistory] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -15,22 +15,23 @@ const HistoryPage: React.FC = () => {
         fetchHistory();
     }, []);
 
-    if (loading) return <div className="loader">טוען היסטוריה...</div>;
+    if (loading) return <div className="loader">Loading..</div>;
 
     return (
+        
         <div className="historyContainer">
-            <h1>📓 יומן הלמידה שלי</h1>
+            
+            <h1>MY CHAT HISTORY</h1>
             <div className="historyList">
                 {history.map((item) => (
                     <div key={item.id} className="historyCard">
                         <div className="historyHeader">
-                            {/* ודאי שהשדות האלו קיימים ב-DB שלך */}
-                            <span className="topicTag">{item.SubCategory?.name || 'כללי'}</span>
-                            <span className="dateTag">{new Date(item.createdAt).toLocaleDateString('he-IL')}</span>
+                            <span className="topicTag">{item.SubCategory?.name || 'topic'}</span>
+                            <span className="dateTag">{new Date(item.createdAt).getDate()}</span>
                         </div>
                         <div className="historyBody">
-                            <p><strong>שאלה:</strong> {item.prompt}</p>
-                            <p><strong>תשובה:</strong> {item.response}</p>
+                            <p><strong>YOU:</strong> {item.prompt}</p>
+                            <p><strong>AI:</strong> {item.response}</p>
                         </div>
                     </div>
                 ))}
@@ -39,4 +40,4 @@ const HistoryPage: React.FC = () => {
     );
 };
 
-export default HistoryPage;
+export default History;

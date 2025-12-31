@@ -3,6 +3,9 @@ import jwt from 'jsonwebtoken';
 import { AppError } from '../utils/AppError';
 import { catchAsync } from '../utils/catchAsync';
 
+console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
+
 export const protect = catchAsync(async (req: any, res: Response, next: NextFunction) => {
     let token;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {

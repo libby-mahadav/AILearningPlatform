@@ -2,19 +2,14 @@ import React, { useState } from "react";
 import { sendMessageToAI, type ChatMessage } from "../services/chatService";
 import '../css/Chat.css';
 
-interface Message {
-    role: 'user' | 'ai';
-    content: string;
-}
-
 interface ChatProps {
     subCategoryName: string;
-    subCategoryId: number; // חייב להיות כאן!
+    subCategoryId: number; 
     onBack: () => void;
 }
 
 const Chat: React.FC<ChatProps> = ({ subCategoryName, subCategoryId, onBack }) => {
-    const [messages, setMessages] = useState<Message[]>([]);
+    const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -22,26 +17,20 @@ const Chat: React.FC<ChatProps> = ({ subCategoryName, subCategoryId, onBack }) =
         if (!input.trim() || isLoading) return;
 
         const userContent = input;
-        const newMessages: Message[] = [...messages, { role: 'user', content: userContent }];
+        const newMessages: ChatMessage[] = [...messages, { role: 'user', content: userContent }];
         
         setMessages(newMessages);
         setInput('');
         setIsLoading(true);
 
         try {
-            // המרה לפורמט של השרת - assistant במקום ai
-            const apiMessages: ChatMessage[] = newMessages.map(m => ({
-                role: m.role === 'user' ? 'user' : 'assistant',
-                content: m.content
-            }));
-
-            // הקריאה לסרוויס עם ה-ID
-            const reply = await sendMessageToAI(subCategoryId, apiMessages);
             
-            setMessages([...newMessages, { role: 'ai', content: reply }]);
+            const reply = await sendMessageToAI(subCategoryId, newMessages);
+            setMessages([...newMessages, { role: 'assistant', content: reply }]);
+       
         } catch (error) {
             console.error("Failed to get AI response", error);
-            setMessages(prev => [...prev, { role: 'ai', content: "Error connecting to teacher." }]);
+            setMessages(prev => [...prev, { role: 'assistant', content: "Error connecting to teacher." }]);
         } finally {
             setIsLoading(false);
         }

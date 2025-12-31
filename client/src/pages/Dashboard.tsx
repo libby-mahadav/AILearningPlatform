@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllCategories } from '../services/categoryService';
-import { getSubsByCatId } from "../services/subCategoryService"; 
+import { getSubsByCatId } from "../services/subCategoryService";
 import CategoryCard from "../components/categoryCard";
 import Chat from "../components/chat";
 import '../css/Dashboard.css'
+import { useAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
     const [categories, setCategories] = useState<any[]>([]);
@@ -15,7 +16,15 @@ const Dashboard = () => {
 
     const navigate = useNavigate();
 
-        const getCategories = async () => {
+
+    const { role } = useAuth();
+    const isAdmin = role === 'admin';
+
+    useEffect(() => {
+        getCategories();
+    }, []);
+
+    const getCategories = async () => {
         try {
             const data = await getAllCategories();
             setCategories(data.data.categories || []);
@@ -26,16 +35,12 @@ const Dashboard = () => {
         }
     };
 
-    useEffect(() => {
-        getCategories();
-    }, []);
-
     const handleCategorySelect = async (category: any) => {
         setLoading(true);
         setSelectedCategory(category);
         try {
             const subs = await getSubsByCatId(category.id);
-            setSub(Array.isArray(subs) ? subs : []);
+            setSub(subs ? subs : []);
         } catch (error) {
             console.error("failed to get sub categories", error);
             setSub([]);
@@ -44,78 +49,49 @@ const Dashboard = () => {
         }
     };
 
-    // פונקציה לבדיקה אם המשתמש הוא מנהל לפי הטוקן
-    const isAdmin = () => {
-        const token = localStorage.getItem('token');
-        if (!token) return false;
-
-        try {
-            const content = JSON.parse(atob(token.split('.')[1]));
-            console.log("Token content:", content); // בדיקה זמנית לראות מה יש בטוקן
-            return content.role === 'admin';
-        } catch (e) {
-            return false;
-        }
-    };
 
     if (loading) return <div className="loader">Loading...</div>;
 
     return (
-        <div className="dashboard-container">
-            
-            <div className="dashboard-header" style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-                <button 
-                    className="history-nav-btn" 
-                    onClick={() => navigate('/history')}
-                >
-                    📜 להיסטוריית הלמידה שלי
+        <div className="dashboardContainer">
+
+            <div className="dashboardHeader">
+                <button className="historyNavBtn" onClick={() => navigate('/history')}>
+                    MY HISTORY
                 </button>
 
-                {/* כפתור ניהול שמופיע רק למנהל */}
-                {isAdmin() && (
-                    <button 
-                        className="admin-nav-btn" 
+                {isAdmin && (
+                    <button
+                        className="adminNavBtn"
                         onClick={() => navigate('/adminHistory')}
-                        style={{
-                            backgroundColor: '#e74c3c',
-                            color: 'white',
-                            padding: '10px 15px',
-                            borderRadius: '8px',
-                            border: 'none',
-                            fontWeight: 'bold',
-                            cursor: 'pointer',
-                            boxShadow: '0 2px 5px rgba(0,0,0,0.2)'
-                        }}
                     >
-                        🛠️ ניהול מערכת
+                        USERS HISTORY
                     </button>
                 )}
             </div>
-            
+
             {selectedSub ? (
-                /* מצב 3: צ'אט */
                 <Chat
                     subCategoryName={selectedSub.name}
-                    subCategoryId={selectedSub.id} 
-                    onBack={() => setSelectedSub(null)} 
+                    subCategoryId={selectedSub.id}
+                    onBack={() => setSelectedSub(null)}
                 />
             ) : !selectedCategory ? (
-                /* מצב 1: קטגוריות ראשיות */
-                <div className="categories-grid">
+                <div className="categoriesGrid">
                     {categories.map(cat => (
                         <CategoryCard key={cat.id} name={cat.name} onClick={() => handleCategorySelect(cat)} />
                     ))}
                 </div>
             ) : (
-                /* מצב 2: תת קטגוריות */
-                <div className="sub-categories-view">
-                    <button className="back-btn" onClick={() => setSelectedCategory(null)}>🔙 חזרה לנושאים</button>
-                    <div className="categories-grid">
+                <div>
+                    <button className="backBtn" onClick={() => setSelectedCategory(null)}>
+                        BACK</button>
+                    <div className="categoriesGrid">
                         {sub.map(s => (
-                            <CategoryCard 
-                                key={s.id} 
-                                name={s.name} 
-                                onClick={() => setSelectedSub(s)} 
+                            <CategoryCard
+                                key={s.id}
+                                name={s.name}
+                                onClick={() => setSelectedSub(s)}
                             />
                         ))}
                     </div>

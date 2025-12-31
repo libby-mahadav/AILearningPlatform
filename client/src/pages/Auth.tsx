@@ -9,6 +9,7 @@ const Auth = () => {
     const navigate = useNavigate();
 
     const [isLogin, setIsLogin] = useState(true);
+
     const [id, setId] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -22,7 +23,8 @@ const Auth = () => {
         try {
             if (isLogin) {
                 const data = await login(id);
-                saveAuth(data.token); // משתמשים בפונקציה מה-Context
+                saveAuth(data.token);
+                
                 navigate('/dashboard');
             }
             else {

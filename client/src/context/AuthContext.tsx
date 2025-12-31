@@ -16,11 +16,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     useEffect(() => {
         if (token) {
             try {
-                // מפענחים את הטוקן כדי לדעת מה התפקיד
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 setRole(payload.role);
             } catch (e) {
-                logout(); // אם הטוקן לא תקין, מוציאים את המשתמש
+                logout(); 
             }
         }
     }, [token]);
