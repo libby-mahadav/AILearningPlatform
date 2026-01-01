@@ -27,7 +27,7 @@ const History: React.FC = () => {
                     <div key={item.id} className="historyCard">
                         <div className="historyHeader">
                             <span className="topicTag">{item.SubCategory?.name || 'topic'}</span>
-                            <span className="dateTag">{new Date(item.createdAt).getDate()}</span>
+                            <span className="dateTag">{new Date(item.createdAt).toLocaleDateString('he-IL')}</span>
                         </div>
                         <div className="historyBody">
                             <p><strong>YOU:</strong> {item.prompt}</p>

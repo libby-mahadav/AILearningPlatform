@@ -13,7 +13,7 @@ export const sendMessageToAI = async (subCategoryId: number, messages: ChatMessa
         });
         return response.data.data.reply; 
     } catch (error) {
-        console.error("ChatService Error:", error);
+        logger.error("ChatService Error:", error);
         throw error;
     }
 };
@@ -23,7 +23,7 @@ export const getUserChatHistory = async () => {
         const response = await API.get('/prompts/history');
         return response.data.data;
     }catch(error){
-        console.error("Error getting history:", error);
+        logger.error("Error getting history:", error);
         return [];
     }
 };
@@ -33,7 +33,7 @@ export const getAllHistoryAdmin = async () => {
         const response = await API.get('/prompts/admin/allHistory');
         return response.data.data;
     } catch (error) {
-        console.error("Admin History Error:", error);
+        logger.error("Admin History Error:", error);
         return [];
     }
 };

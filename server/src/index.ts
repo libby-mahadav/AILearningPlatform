@@ -16,7 +16,7 @@ import subCategoryRouter from './routes/subCategoryRoute';
 import promptRouter from './routes/promptRoutes';
 
 
-
+import { logger } from './utils/logger';
 import { errorHandler } from './middlewares/errorMiddleware';
 import { AppError } from './utils/AppError';
 
@@ -43,17 +43,21 @@ app.use((req: Request, res: Response, next) => {
 app.use(errorHandler);
 
 const startServer = async () => {
+    try {
         // Test the database connection
         await sequelize.authenticate();
-        console.log('Database connected successfully.');
+        logger.info('Database connected successfully.');
         // check if data base tables are in sync with models
         await sequelize.sync({ alter: true });
-        console.log('All models were synchronized successfully.');
+        logger.info('All models were synchronized successfully.');
         // Start the server
         app.listen(PORT, () => {
-            console.log(`Server is running on http://localhost:${PORT}`);
+            logger.info(`Server is running on http://localhost:${PORT}`);
         });
-
+    } catch (error) {
+        logger.error('Unable to start the server:', error);
+        process.exit(1);
+    }
 };
 
 startServer();
