@@ -37,6 +37,9 @@ DB_HOST=localhost
 JWT_SECRET=your_jwt_secret
 OPENAI_API_KEY=your_openai_api_key
 
+Create a .env file in the client directory with the following:
+VITE_API_URL=your_localhost_link
+
 3. Installation & Running
 Server:
 cd server
