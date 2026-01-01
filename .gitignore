@@ -1,4 +1,9 @@
 node_modules/
 dist/
+build/
 .env
+server/logs/
+*.log
+npm-debug.log*
 .DS_Store
+Thumbs.db
